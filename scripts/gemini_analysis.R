@@ -4,6 +4,7 @@ MIN_SEC_PER_PROMPT = 5 # Minimum number of seconds between prompts
 
 perform_analysis = function() {
   library(dplyr)
+  library(jsonlite)
 
   start_time = as.numeric(Sys.time())
 
@@ -30,8 +31,8 @@ perform_analysis = function() {
     prompt_name = tools::file_path_sans_ext(basename(file))
     cat("\n\n****", prompt_name, "***\n")
     res = analyse_prompt_file(file, config_df=config_df, api_key = API_KEY)
-    out_file = paste0(outdir, "/", prompt_name,".Rds")
-    saveRDS(res, out_file)
+    out_file = paste0(outdir, "/", prompt_name,".json")
+    write_json(res, out_file)
 
     cur_time = as.numeric(Sys.time())
 
